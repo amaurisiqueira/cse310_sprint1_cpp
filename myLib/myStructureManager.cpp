@@ -28,7 +28,7 @@ myStructureManager::~myStructureManager()
 
   // check if a pointer is initailized and free memory
   if (allTasks)
-    delete[] allTasks;
+    delete allTasks;
 
   cout << "Destructor of ManagerStructureClass\n";
 }
