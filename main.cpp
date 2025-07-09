@@ -8,6 +8,8 @@
 using std::cin;
 using std::system;
 
+const string FILENAME_TASK = "my_task.txt";
+
 // list a menu
 void myMenu(void)
 {
@@ -49,31 +51,99 @@ int getMenuOption(void)
   return option_selected;
 }
 
+//
 void menuAddTask(void)
 {
-
   string description;
   system("clear");
   cout << "New task" << endl;
   cout << "----------------------------" << endl;
   cout << "Description:";
-  // Descartar caracteres restantes en el búfer de entrada
+  // remove all chactacer in buffer
   cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
   getline(cin, description);
-  cout << "Descripcion:(" << description << ")" << endl;
+  // cout << "Descripcion:(" << description << ")" << endl;
   description = trim(description);
-  cout << "Descripcion:(" << description << ")" << endl;
+  // cout << "Descripcion:(" << description << ")" << endl;
 
   if (description.size() > 1)
   {
-    myStructureManager *myAllTasks = new myStructureManager();
+    // new instance of class myStructureManager
+    myStructureManager *myAllTasks = new myStructureManager(FILENAME_TASK);
     if (myAllTasks)
     {
+      // method to add a new task
       myAllTasks->add(&description);
-
-      myAllTasks->list();
+      // destroy a instance of class myStructureManager
       delete myAllTasks;
     }
+  }
+}
+
+//
+void menuCompleTask(void)
+{
+  string myID;
+  system("clear");
+  cout << "Complete a task ID" << endl;
+  cout << "----------------------------" << endl;
+  cout << "ID to Complete:";
+  // remove all chactacer in buffer
+  cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  getline(cin, myID);
+  // cout << "Descripcion:(" << description << ")" << endl;
+  int id = atoi(trim(myID).c_str());
+  // cout << "Descripcion:(" << description << ")" << endl;
+
+  if (id > 0)
+  {
+    // new instance of class myStructureManager
+    myStructureManager *myAllTasks = new myStructureManager(FILENAME_TASK);
+    if (myAllTasks)
+    {
+      // method to complete a task
+      myAllTasks->complete(id);
+      // destroy a instance of class myStructureManager
+      delete myAllTasks;
+    }
+  }
+}
+
+// de
+void menuDeleteTask(void)
+{
+  string myID;
+  system("clear");
+  cout << "Delete a task by ID" << endl;
+  cout << "----------------------------" << endl;
+  cout << "ID to delete:";
+  // remove all chactacer in buffer
+  cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  getline(cin, myID);
+  int id = atoi(trim(myID).c_str());
+  if (id > 0)
+  {
+    // new instance of class myStructureManager
+    myStructureManager *myAllTasks = new myStructureManager(FILENAME_TASK);
+    if (myAllTasks)
+    {
+      // method to complete a task
+      myAllTasks->del(id);
+      // destroy a instance of class myStructureManager
+      delete myAllTasks;
+    }
+  }
+}
+void menuListTask(void)
+{
+  myStructureManager *myAllTasks = new myStructureManager(FILENAME_TASK);
+  if (myAllTasks)
+  {
+    myAllTasks->list();
+    delete myAllTasks;
+
+    // wait for a key to continue
+    PressAnyKey();
   }
 }
 
@@ -92,36 +162,26 @@ int main()
     }
     case 2:
     {
-      cout << "option 2" << endl;
+
+      menuCompleTask();
       break;
     }
     case 3:
     {
-      cout << "option 3" << endl;
+      menuDeleteTask();
       break;
     }
     case 4:
     {
-      cout << "option 4" << endl;
+
+      menuListTask();
       break;
     }
     case 5:
     {
-      cout << "option 5" << endl;
+      cout << "BYE!!!" << endl;
       exit(0);
     }
     }
   } //--main while
-
-  myStructureManager *myAllTasks = new myStructureManager();
-
-  string descriptionFirstTask = "my first task";
-  myAllTasks->add(&descriptionFirstTask);
-
-  string descriptionSecondTask = "my second task";
-  myAllTasks->add(&descriptionSecondTask);
-
-  myAllTasks->list();
-
-  cout << "myStructureManager" << endl;
 }

@@ -16,11 +16,12 @@ struct Task_t
 class myStructureManager
 {
 private:
+  string filename;
   vector<Task_t> *allTasks;
 
 public:
   // constructor
-  myStructureManager();
+  myStructureManager(const string filename_);
 
   // destructor
   ~myStructureManager();
@@ -36,6 +37,14 @@ public:
 
   // add new task to buffer
   bool add(string *description);
+  // overload of function
+  bool add(int id, bool completed, string *description);
+
+  // method to complete a task
+  bool complete(int myID);
+
+  // method to delete a task
+  bool del(int myID);
 };
 
 #endif
